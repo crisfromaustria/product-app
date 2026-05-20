@@ -4,6 +4,8 @@ import { Product, ProductsService } from '../../../api';
 import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmDialog } from '../../../shared/confirm-dialog/confirm-dialog';
 
 @Component({
   selector: 'app-product-list',
@@ -14,6 +16,7 @@ import { MatIconModule } from '@angular/material/icon';
 export class ProductList implements OnInit {
   private productsService = inject(ProductsService);
   private router = inject(Router);
+  private dialog = inject(MatDialog);
 
   products = signal<Product[]>([]);
   displayedColumns = ['name', 'price', 'actions'];
@@ -30,5 +33,22 @@ export class ProductList implements OnInit {
 
   editProduct(product: Product): void {
     this.router.navigate(['/products', product.id, 'edit']);
+  }
+
+  deleteProduct(product: Product): void {
+    const dialogRef = this.dialog.open(ConfirmDialog, {
+      data: {
+        title: 'Delete Product',
+        message: `Are you sure you want to delete "${product.name}"?`
+      }
+    });
+
+    dialogRef.afterClosed().subscribe((confirmed: boolean) => {
+      if (confirmed) {
+        this.productsService._delete(product.id!).subscribe(() => {
+          this.products.update(list => list.filter(p => p.id !== product.id));
+        });
+      }
+    });
   }
 }
