@@ -6,15 +6,18 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "generate": "openapi-generator-cli generate -i openapi/spec.json -g typescript-angular -o src/app/api --additional-properties=ngVersion=21,withInterfaces=true"
   },
   "private": true,
   "packageManager": "npm@11.3.0",
   "dependencies": {
+    "@angular/cdk": "^21.2.11",
     "@angular/common": "^21.2.0",
     "@angular/compiler": "^21.2.0",
     "@angular/core": "^21.2.0",
     "@angular/forms": "^21.2.0",
+    "@angular/material": "^21.2.11",
     "@angular/platform-browser": "^21.2.0",
     "@angular/router": "^21.2.0",
     "rxjs": "~7.8.0",
