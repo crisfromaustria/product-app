@@ -44,7 +44,7 @@
           "200": {
             "description": "Product found",
             "content": {
-              "*/*": {
+              "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/Product"
                 }
@@ -54,7 +54,7 @@
           "404": {
             "description": "Product not found",
             "content": {
-              "*/*": {
+              "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ProblemDetail"
                 }
@@ -64,7 +64,7 @@
           "500": {
             "description": "Unexpected server error",
             "content": {
-              "*/*": {
+              "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ProblemDetail"
                 }
@@ -104,7 +104,7 @@
           "200": {
             "description": "Product updated",
             "content": {
-              "*/*": {
+              "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/Product"
                 }
@@ -114,7 +114,7 @@
           "400": {
             "description": "Validation error",
             "content": {
-              "*/*": {
+              "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ProblemDetail"
                 }
@@ -124,7 +124,7 @@
           "404": {
             "description": "Product not found",
             "content": {
-              "*/*": {
+              "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ProblemDetail"
                 }
@@ -134,7 +134,7 @@
           "500": {
             "description": "Unexpected server error",
             "content": {
-              "*/*": {
+              "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ProblemDetail"
                 }
@@ -167,7 +167,7 @@
           "404": {
             "description": "Product not found",
             "content": {
-              "*/*": {
+              "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ProblemDetail"
                 }
@@ -177,7 +177,7 @@
           "500": {
             "description": "Unexpected server error",
             "content": {
-              "*/*": {
+              "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ProblemDetail"
                 }
@@ -198,7 +198,7 @@
           "200": {
             "description": "Products returned",
             "content": {
-              "*/*": {
+              "application/json": {
                 "schema": {
                   "type": "array",
                   "items": {
@@ -211,7 +211,7 @@
           "500": {
             "description": "Unexpected server error",
             "content": {
-              "*/*": {
+              "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ProblemDetail"
                 }
@@ -240,7 +240,7 @@
           "201": {
             "description": "Product created",
             "content": {
-              "*/*": {
+              "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/Product"
                 }
@@ -250,7 +250,7 @@
           "400": {
             "description": "Validation error",
             "content": {
-              "*/*": {
+              "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ProblemDetail"
                 }
@@ -260,7 +260,7 @@
           "500": {
             "description": "Unexpected server error",
             "content": {
-              "*/*": {
+              "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ProblemDetail"
                 }
@@ -410,6 +410,22 @@
           "name"
         ]
       },
+      "Product": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string"
+          },
+          "price": {
+            "type": "number",
+            "format": "double"
+          }
+        }
+      },
       "ProblemDetail": {
         "type": "object",
         "properties": {
@@ -436,22 +452,6 @@
             "additionalProperties": {
 
             }
-          }
-        }
-      },
-      "Product": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "name": {
-            "type": "string"
-          },
-          "price": {
-            "type": "number",
-            "format": "double"
           }
         }
       }
