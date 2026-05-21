@@ -5,6 +5,8 @@ import { ProductsStore } from '../products.store';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmDialog } from '../../../shared/confirm-dialog/confirm-dialog';
 
 @Component({
   selector: 'app-product-form',
@@ -17,17 +19,20 @@ export class ProductForm implements OnInit, OnDestroy {
   private router = inject(Router);
   private route = inject(ActivatedRoute);
   private fb = inject(FormBuilder);
+  private dialog = inject(MatDialog);
 
-  editId: string | null = null;
-  isEditMode = computed(() => !!this.store.selectedProduct());
+  private editId: string | null = null;
+  public isEditMode = computed(() => !!this.store.selectedProduct());
 
-  form = this.fb.group({
+  public form = this.fb.group({
     name: ['', [Validators.required, Validators.minLength(1)]],
     price: [0, Validators.required]
   });
 
-  constructor() {
+  public constructor() {
+    console.log('constructor...');
     effect(() => {
+      console.log('effect...');
       const product = this.store.selectedProduct();
       if (product) {
         this.form.patchValue({ name: product.name, price: product.price });
@@ -35,18 +40,21 @@ export class ProductForm implements OnInit, OnDestroy {
     });
   }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
+    console.log('ngOnInit...');
     this.editId = this.route.snapshot.paramMap.get('id');
     if (this.editId) {
       this.store.loadById(this.editId);
     }
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
+    console.log('ngOnDestroy...');
     this.store.clearSelected();
   }
 
   async save(): Promise<void> {
+    console.log('save...');
     if (this.form.invalid) return;
 
     const request = {
@@ -63,7 +71,21 @@ export class ProductForm implements OnInit, OnDestroy {
     this.router.navigate(['/products']);
   }
 
-  cancel(): void {
-    this.router.navigate(['/products']);
+  public cancel(): void {
+    if (!this.form.dirty) {
+      this.router.navigate(['/products']);
+      return;
+    }
+
+    this.dialog.open(ConfirmDialog, {
+      data: {
+        title: 'Discard Changes',
+        message: 'Are you sure you want to discard all changes?'
+      }
+    }).afterClosed().subscribe((confirmed: boolean) => {
+      if (confirmed) {
+        this.router.navigate(['/products']);
+      }
+    });
   }
 }
