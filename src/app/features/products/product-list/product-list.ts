@@ -1,6 +1,7 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Product, ProductsService } from '../../../api';
+import { Product } from '../../../api';
+import { ProductsStore } from '../products.store';
 import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -14,17 +15,16 @@ import { ConfirmDialog } from '../../../shared/confirm-dialog/confirm-dialog';
   styleUrl: './product-list.scss',
 })
 export class ProductList implements OnInit {
-  private productsService = inject(ProductsService);
+  private store = inject(ProductsStore);
   private router = inject(Router);
   private dialog = inject(MatDialog);
 
-  products = signal<Product[]>([]);
+  products = this.store.products;
+  loading = this.store.loading;
   displayedColumns = ['name', 'price', 'actions'];
 
   ngOnInit(): void {
-    this.productsService.getAll().subscribe((products) => {
-      this.products.set(products);
-    });
+    this.store.loadAll();
   }
 
   createProduct(): void {
@@ -45,9 +45,7 @@ export class ProductList implements OnInit {
 
     dialogRef.afterClosed().subscribe((confirmed: boolean) => {
       if (confirmed) {
-        this.productsService._delete(product.id!).subscribe(() => {
-          this.products.update(list => list.filter(p => p.id !== product.id));
-        });
+        this.store.delete(product.id!);
       }
     });
   }

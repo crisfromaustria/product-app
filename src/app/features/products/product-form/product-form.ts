@@ -1,7 +1,7 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, inject, OnInit, OnDestroy, computed, effect } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ProductsService } from '../../../api';
+import { ProductsStore } from '../products.store';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
@@ -12,30 +12,41 @@ import { MatButtonModule } from '@angular/material/button';
   templateUrl: './product-form.html',
   styleUrl: './product-form.scss',
 })
-export class ProductForm implements OnInit {
-  private productsService = inject(ProductsService);
+export class ProductForm implements OnInit, OnDestroy {
+  private store = inject(ProductsStore);
   private router = inject(Router);
   private route = inject(ActivatedRoute);
   private fb = inject(FormBuilder);
 
-  editId = signal<string | null>(null);
+  editId: string | null = null;
+  isEditMode = computed(() => !!this.store.selectedProduct());
 
   form = this.fb.group({
     name: ['', [Validators.required, Validators.minLength(1)]],
     price: [0, Validators.required]
   });
 
-  ngOnInit(): void {
-    const id = this.route.snapshot.paramMap.get('id');
-    if (id) {
-      this.editId.set(id);
-      this.productsService.getById(id).subscribe(product => {
+  constructor() {
+    effect(() => {
+      const product = this.store.selectedProduct();
+      if (product) {
         this.form.patchValue({ name: product.name, price: product.price });
-      });
+      }
+    });
+  }
+
+  ngOnInit(): void {
+    this.editId = this.route.snapshot.paramMap.get('id');
+    if (this.editId) {
+      this.store.loadById(this.editId);
     }
   }
 
-  save(): void {
+  ngOnDestroy(): void {
+    this.store.clearSelected();
+  }
+
+  async save(): Promise<void> {
     if (this.form.invalid) return;
 
     const request = {
@@ -43,12 +54,13 @@ export class ProductForm implements OnInit {
       price: this.form.value.price ?? undefined
     };
 
-    const id = this.editId();
-    const operation = id
-      ? this.productsService.update(id, request)
-      : this.productsService.create(request);
+    if (this.editId) {
+      await this.store.update(this.editId, request);
+    } else {
+      await this.store.create(request);
+    }
 
-    operation.subscribe(() => this.router.navigate(['/products']));
+    this.router.navigate(['/products']);
   }
 
   cancel(): void {

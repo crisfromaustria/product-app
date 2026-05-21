@@ -1,4 +1,4 @@
-<h2>{{ editId() ? 'Edit Product' : 'New Product' }}</h2>
+<h2>{{ isEditMode() ? 'Edit Product' : 'New Product' }}</h2>
 
 <form [formGroup]="form" (ngSubmit)="save()">
   <mat-form-field appearance="outline">
