@@ -30,12 +30,18 @@ describe('ProductsStore', () => {
   });
 
   it('should have empty initial state', () => {
+    console.log('test: empty initial state', {
+      products: store.products(),
+      selectedProduct: store.selectedProduct(),
+      loading: store.loading()
+    });
     expect(store.products()).toEqual([]);
     expect(store.selectedProduct()).toBeNull();
     expect(store.loading()).toBe(false);
   });
 
   it('should load all products', async () => {
+    console.log('test: load all products');
     TestBed.flushEffects();
     store.loadAll();
     await Promise.resolve();
@@ -44,6 +50,7 @@ describe('ProductsStore', () => {
   });
 
   it('should load product by id', async () => {
+    console.log('test: load product by id', { id: '1' });
     TestBed.flushEffects();
     store.loadById('1');
     await Promise.resolve();
@@ -51,6 +58,7 @@ describe('ProductsStore', () => {
   });
 
   it('should create a product and add it to the list', async () => {
+    console.log('test: create product', { name: 'New Product', price: 30 });
     await store.create({ name: 'New Product', price: 30 });
     expect(store.products().length).toBe(1);
     expect(store.products()[0].name).toBe('New Product');
