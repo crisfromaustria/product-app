@@ -10,7 +10,9 @@ export default defineConfig({
     exclude: ['tests/**', 'node_modules/**'],
     coverage: {
       provider: 'v8',
-      reporter: ['text', 'html']
+      reporter: ['text', 'html'],
+      include: ['src/app/**/*.ts'],
+      exclude: ['**/*.scss', '**/*.html', 'src/app/api/**', 'src/test-setup.ts', '**/*.spec.ts', 'src/app/*.ts']
     }
   }
 });
