@@ -40,7 +40,7 @@ describe('ProductForm — create mode', () => {
     await TestBed.configureTestingModule({
       imports: [ProductForm],
       providers: [
-        provideRouter([]),
+        provideRouter([{ path: 'products', component: ProductForm }]),
         { provide: ProductsStore, useValue: mockStore },
         { provide: MatDialog, useValue: mockDialog },
         { provide: ActivatedRoute, useValue: createRoute(null) }
@@ -146,7 +146,7 @@ describe('ProductForm — edit mode', () => {
     await TestBed.configureTestingModule({
       imports: [ProductForm],
       providers: [
-        provideRouter([]),
+        provideRouter([{ path: 'products', component: ProductForm }]),
         { provide: ProductsStore, useValue: mockStore },
         { provide: MatDialog, useValue: mockDialog },
         { provide: ActivatedRoute, useValue: createRoute('1') }
