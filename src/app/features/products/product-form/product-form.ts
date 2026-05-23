@@ -59,7 +59,7 @@ export class ProductForm implements OnInit, OnDestroy {
 
     const request = {
       name: this.form.value.name!,
-      price: this.form.value.price!
+      price: this.form.value.price
     };
 
     if (this.editId) {
