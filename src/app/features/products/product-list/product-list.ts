@@ -24,6 +24,7 @@ export class ProductList implements OnInit {
   displayedColumns = ['name', 'price', 'actions'];
 
   ngOnInit(): void {
+    console.log('ngOnInit()');
     this.store.loadAll();
   }
 
