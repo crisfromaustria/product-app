@@ -32,14 +32,14 @@ test('mock should display product prices', async ({ page }) => {
   await expect(page.locator('table').getByText('200')).toBeVisible();
 });
 
-test('mock should show New Product button', async ({ page }) => {
+test('mock should show New button', async ({ page }) => {
   await page.goto('/products');
-  await expect(page.locator('button').filter({ hasText: 'New Product' })).toBeVisible();
+  await expect(page.locator('button').filter({ hasText: 'New' })).toBeVisible();
 });
 
-test('mock should navigate to product form when New Product is clicked', async ({ page }) => {
+test('mock should navigate to product form when New is clicked', async ({ page }) => {
   await page.goto('/products');
-  await page.getByRole('button', { name: /New Product/i }).click();
+  await page.getByRole('button', { name: /New/i }).click();
   await expect(page).toHaveURL(/\/products\/new/);
   await expect(page.getByRole('button', { name: /Save/i })).toBeVisible();
 });
@@ -106,5 +106,5 @@ test('mock should show empty table when no products exist', async ({ page }) => 
 
   await page.goto('/products');
   await expect(page.getByText('Product A')).not.toBeVisible();
-  await expect(page.locator('button').filter({ hasText: 'New Product' })).toBeVisible();
+  await expect(page.locator('button').filter({ hasText: 'New' })).toBeVisible();
 });

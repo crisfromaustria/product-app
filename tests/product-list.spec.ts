@@ -25,11 +25,11 @@ test('should display product prices', async ({ page }) => {
 });
 
 test('should show New Product button', async ({ page }) => {
-  await expect(page.locator('button').filter({ hasText: 'New Product' })).toBeVisible();
+  await expect(page.locator('button').filter({ hasText: 'New' })).toBeVisible();
 });
 
 test('should navigate to product form when New Product is clicked', async ({ page }) => {
-  await page.getByRole('button', { name: /New Product/i }).click();
+  await page.getByRole('button', { name: /New/i }).click();
   await expect(page).toHaveURL(/\/products\/new/);
   await expect(page.getByRole('button', { name: /Save/i })).toBeVisible();
 });

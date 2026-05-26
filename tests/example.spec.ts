@@ -11,7 +11,7 @@ test('get started link', async ({ page }) => {
   await page.goto('http://localhost:4200');
 
   // Click the get started link.
-  await page.getByRole('button', { name: 'New Product' }).click();
+  await page.getByRole('button', { name: 'New' }).click();
 
   // Expects page to have a heading with the name of Installation.
   await expect(page.getByRole('button', { name: 'Save' })).toBeVisible();

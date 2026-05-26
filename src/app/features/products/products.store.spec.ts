@@ -11,7 +11,7 @@ const mockProducts = [
 const mockProductsService = {
   getAll: vi.fn().mockReturnValue(of(mockProducts)),
   getById: vi.fn().mockReturnValue(of(mockProducts[0])),
-  create: vi.fn().mockReturnValue(of({ id: '3', name: 'New Product', price: 30 })),
+  create: vi.fn().mockReturnValue(of({ id: '3', name: 'New', price: 30 })),
   update: vi.fn().mockReturnValue(of({ id: '1', name: 'Updated', price: 99 })),
   _delete: vi.fn().mockReturnValue(of(null)),
 };

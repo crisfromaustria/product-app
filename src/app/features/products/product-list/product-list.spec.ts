@@ -66,7 +66,7 @@ describe('ProductList', () => {
     expect(names).toContain('Product B');
   });
 
-  it('should navigate to /products/new when New Product is clicked', () => {
+  it('should navigate to /products/new when New is clicked', () => {
     console.log('test: navigation to /products/new');
     const router = TestBed.inject(Router);
     const spy = vi.spyOn(router, 'navigate');

@@ -77,7 +77,7 @@ describe('ProductForm — create mode', () => {
   });
 
   it('should enable save button when name is filled', async () => {
-    component.form.patchValue({ name: 'New Product' });
+    component.form.patchValue({ name: 'New' });
     fixture.detectChanges();
     const saveButton = fixture.nativeElement.querySelector('button[color="primary"]');
     expect(saveButton.disabled).toBe(false);
