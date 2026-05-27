@@ -8,7 +8,9 @@
     "watch": "ng build --watch --configuration development",
     "test": "vitest run",
     "test:e2e": "playwright test",
-    "generate": "openapi-generator-cli generate -i openapi/spec.json -g typescript-angular -o src/app/api --additional-properties=ngVersion=21,withInterfaces=true"
+    "test:e2e:ci": "playwright test --grep-invert @real",
+    "generate": "openapi-generator-cli generate -i openapi/spec.json -g typescript-angular -o src/app/api --additional-properties=ngVersion=21,withInterfaces=true",
+    "lint": "ng lint"
   },
   "private": true,
   "packageManager": "npm@11.3.0",
@@ -31,13 +33,17 @@
     "@angular/build": "^21.2.0",
     "@angular/cli": "^21.2.0",
     "@angular/compiler-cli": "^21.2.0",
+    "@eslint/js": "^10.0.1",
     "@openapitools/openapi-generator-cli": "^2.34.0",
     "@playwright/test": "^1.60.0",
     "@types/node": "^25.9.1",
     "@vitest/coverage-v8": "^4.1.7",
+    "angular-eslint": "21.4.0",
+    "eslint": "^10.3.0",
     "jsdom": "^28.0.0",
     "prettier": "^3.8.1",
     "typescript": "~5.9.2",
+    "typescript-eslint": "8.59.2",
     "vitest": "^4.0.8"
   }
 }

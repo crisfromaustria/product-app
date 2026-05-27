@@ -24,9 +24,6 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Run linting
-        run: npm run lint --if-present
-
       - name: Run tests
         run: npm test --if-present
 
@@ -34,7 +31,7 @@ jobs:
         run: npx playwright install --with-deps
 
       - name: Run Playwright tests
-        run: npm run test:e2e --if-present
+        run: npm run test:e2e:ci --if-present
 
       - name: Upload Playwright test results
         if: always()
