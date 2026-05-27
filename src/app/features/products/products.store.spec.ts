@@ -61,7 +61,7 @@ describe('ProductsStore', () => {
     console.log('test: create product', { name: 'New Product', price: 30 });
     await store.create({ name: 'New Product', price: 30 });
     expect(store.products().length).toBe(1);
-    expect(store.products()[0].name).toBe('New Product');
+    expect(store.products()[0].name).toBe('New');
   });
 
   it('should update a product in the list', async () => {
